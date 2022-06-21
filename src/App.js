@@ -1,24 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import LoginForm from './forms/LoginForm'
+import RegisterForm from './forms/RegisterForm'
+import ThemeSwitch from './components/ThemeSwitch'
+import ResponsiveAppBar from './components/ResponsiveAppBar'
+import CarLookupForm from './forms/CarLookupForm'
+import Box from '@mui/material/Box'
+import SnackBar from './components/SnackBar'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <>
+    <SnackBar/>
+    <ResponsiveAppBar/>
+    <Box sx={{minHeight:'90vh', p:5}}>
+      <LoginForm/>
+    </Box>
+
+  </>
+  
   );
 }
 
