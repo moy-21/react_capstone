@@ -14,9 +14,13 @@ import MenuItem from '@mui/material/MenuItem';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { AppContext } from '../context/AppContext';
 import ThemeSwitch from './ThemeSwitch'
+import {Link} from 'react-router-dom';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+const pages = [{label:'Vehicle Search',path:'/decode', key:'1'},
+{label:'History Report',path:'/login', key:'2'}, {label:'Warranty',path:'/warranty', key:'3'}, {label:'Diagnostics',path:'/diagnostics', key:'4'}];
+const settings = [{label:'My List',path:'/carlist', key:'3'},
+{label:'Account',path:'/register', key:'4'}];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -42,7 +46,9 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} ><img src='../android-chrome-192x192.png' width="100" height="60"></img></Box>
+          <Link to='/' style={{display:"flex", color:'inherit', textDecoration:'none'}}>
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} ><img src='../carlogo2.png' width="300" height="150"></img></Box>
+          </Link>
           <Typography
             variant="h6"
             noWrap
@@ -58,7 +64,7 @@ const ResponsiveAppBar = () => {
               textDecoration: 'none',
             }}
           >
-            CDA
+            
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -91,51 +97,56 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.key} onClick={handleCloseNavMenu}>
+                  <Link to={page.path} style={{display:"flex", color:'inherit', textDecoration:'none'}}>
+                    <Typography textAlign="center">{page.label}</Typography>
+                  </Link>
+                  
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} ><img src='../android-chrome-192x192.png' width="100" height="60"></img></Box>
           <Typography
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'dosis',
+              fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            CDA
+            <Box justifyContent="flex-center" sx={{ display: { xs: 'flex', md: 'none' }, mr: 1}} ><img src='../android-chrome-192x192.png' width="100" height="100"></img></Box>
+
           </Typography>
+        
+          
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+              <Link key={page.key} to={page.path} style={{display:"flex", color:'inherit', textDecoration:'none'}}>
+                <Button
+                  key={page.key}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page.label}
+                </Button>
+              </Link>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {user?
+              
                   <Avatar alt={user.first_name} src="/static/images/avatar/2.jpg" />
-                :
-                  <PersonOutlineIcon/>
-                }
+                
               </IconButton>
             </Tooltip>
             <Menu
@@ -154,12 +165,21 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.key} onClick={handleCloseUserMenu}>
+                  <Link to={setting.path} style={{display:"flex", color:'inherit', textDecoration:'none'}}>
+                    <Typography textAlign="center">{setting.label}</Typography>
+                  </Link>
                 </MenuItem>
                 
+                
               ))}
+              {user.token?
+                <MenuItem key={'logout'}><Link to="/logout" style={{ display:"flex", color:"inherit", underline:"none", textDecoration:'none'}} >Logout</Link></MenuItem>
+              :
+                <MenuItem key={'login'}><Link to="/login" style={{ display:"flex", color:"inherit", underline:"none", textDecoration:'none'}} >Login</Link></MenuItem>
+              }
             </Menu>
           </Box>
           <Box sx= {{p:2}}>

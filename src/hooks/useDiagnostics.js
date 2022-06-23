@@ -3,26 +3,26 @@ import apiCarMD from '../api/apiCarMD';
 import { CancelToken } from 'apisauce';
 
 
-export default function useImage(vin){
-    const [img, setImg]=useState('');
+export default function useDiagnostics(info){
+    const [diag, setDiag]=useState({});
 
     useEffect(
         ()=>{ 
             let response
             const source= CancelToken.source();
-            if(vin){
-                const getImage=async()=>{
-                    response = await apiCarMD.getVehicleImage(vin, source.token)
+            if(info.vin){
+                const getInfo=async()=>{
+                    response = await apiCarMD.getDiagnostics(info.vin, info.mileage, info.dtc, source.token)
                     console.log(response)
-                    setImg(response)
+                    setDiag(response.diag)
                     
                 }
-                getImage()
+                getInfo()
             }
             return ()=>{source.cancel();}
         },
-        [vin]
+        [info]
     )
 
-    return img
+    return diag
 }

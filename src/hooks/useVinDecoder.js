@@ -14,6 +14,7 @@ export default function useVinDecoder(vin){
                 const getInfo=async()=>{
                     response = await apiCarMD.getVinDecoder(vin, source.token)
                     setCar(response)
+                    console.log(response)
                     
                 }
                 getInfo()

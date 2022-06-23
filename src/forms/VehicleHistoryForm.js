@@ -24,7 +24,7 @@ const initialValues={
 }
 
 
-export default function VinDecodeForm(){
+export default function VehicleHistoryForm(){
     
     const [vin, setVin] = useState()
 

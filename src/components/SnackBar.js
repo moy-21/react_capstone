@@ -5,7 +5,7 @@ import MuiAlert from '@mui/material/Alert';
 import { AppContext } from '../context/AppContext';
 
 const Alert = forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
 });
 
 export default function CustomizedSnackbars() {

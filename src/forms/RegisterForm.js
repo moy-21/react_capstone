@@ -45,13 +45,14 @@ export default function RegisterForm(){
     }
 
     const handleSubmit=(values, resetForm)=>{
-        if (user){
+        if(user.token){
             setEditUser(values)
             
         }else{
             setCreateUser(values)
         }
         console.log(values)
+        console.log(createUser)
         resetForm(initialValues)
     }
 
@@ -137,8 +138,8 @@ export default function RegisterForm(){
                 helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}            
             />
 
-            <Button type="submit" sx={{width:"100%"}}>{user?"Edit Profile":"Register"}</Button>
-            {user ?
+            <Button type="submit" sx={{width:"100%"}}>{user.token?"Edit Profile":"Register"}</Button>
+            {user.token ?
                 <Button onClick={()=>{handleDelete()}} sx={{width:"100%",my:1}}>Delete</Button>
             :
                 <></>

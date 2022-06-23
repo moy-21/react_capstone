@@ -5,22 +5,31 @@ import { AppContext } from '../context/AppContext'
 
 
 export default function useEditUser(userInfo){
-    const user= useContext(AppContext)
+    const {user, setAlert}= useContext(AppContext)
+    const data = {
+        "email":userInfo.email,
+        "first_name":userInfo.firstName,
+        "last_name":userInfo.lastName,
+        "password":userInfo.password
+    }
 
     useEffect(
         ()=>{ 
             let response
             const source=CancelToken.source();
             const editUser=async()=>{
-                response = await apiUser.put(user.token, userInfo, source.token)
-                if (response){
-                    // setAlert({msg:`User: ${user.name} Editted`,'cat':'success'})
+                if(userInfo.password){
+                response = await apiUser.put(user.token, data, source.token)
+                if(response){
+                    setAlert({msg:`User: ${user.first_name} Editted`,'cat':'success'})
                     console.log("edited")
                 }else{
-                    // setAlert({msg:`Please reauthorize you account`,'cat':'warning'})
+                    setAlert({msg:`Please reauthorize you account`,'cat':'warning'})
                     console.log("error")
                 }
             }
+            }
+            editUser()
             return ()=>{source.cancel()}
         },  [userInfo, user.token]
     )

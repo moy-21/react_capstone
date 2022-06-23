@@ -1,28 +1,42 @@
-import {useEffect, useContext} from 'react';
+import {useEffect, useContext, useState} from 'react';
 import apiUser from '../api/apiUser';
 import { CancelToken } from 'apisauce';
-// import { AppContext } from '../context/AppContext'
+import { AppContext } from '../context/AppContext'
 
 
-export default function useCreateUser(newUser){
+export default function useCreateUser(createUser){
 
-    // const setAlert = useContext(AppContext)
-
+    const {setAlert} = useContext(AppContext)
+    const data = {
+        "email":createUser.email,
+        "first_name":createUser.firstName,
+        "last_name":createUser.lastName,
+        "password":createUser.password
+    }
+    
+    
     useEffect(
         ()=>{ 
-            let response
+           
+            let response;
             const source=CancelToken.source();
-            const createUser=async()=>{
-                response = await apiUser.post(newUser, source.token)
-                if (response){
-                    // setAlert({msg:`User: Deleted`,'cat':'success'})
+            const createUserr=async()=>{
+                if(createUser.firstName){
+                
+                response = await apiUser.post(data, source.token)
+                if(response){
+                    setAlert({msg:`${createUser.firstName + ' ' + createUser.lastName} Registered`,'cat':'success'})
                     console.log("User Created")
+                    
                 }else{
-                    // setAlert({msg:`Please reauthorize you account`,'cat':'warning'})
+                    setAlert({msg:`Please reauthorize your account`,'cat':'warning'})
                     console.log("error")
                 }
+                }
+                
             }
+            createUserr()
             return ()=>{source.cancel()}
-        },  [newUser]
+        },  [createUser]
     )
 }

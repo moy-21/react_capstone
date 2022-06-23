@@ -2,14 +2,15 @@ import React, {useEffect, useContext} from 'react'
 import {getUser} from '../api/apiBasicAuth';
 import { CancelToken } from 'apisauce';
 import { AppContext } from '../context/AppContext'
+import {useNavigate} from 'react-router-dom';
 
-// import {useNavigate} from 'react-router-dom';
+
 
 export default function useLogin(loginCreds, setLoginCreds, setError, setUser) {
 
     const {setAlert} = useContext(AppContext)
     
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     useEffect(
         
 
@@ -22,17 +23,17 @@ export default function useLogin(loginCreds, setLoginCreds, setError, setUser) {
                     if(response.user?.token){
                         console.log('logged in');
                         setUser(response.user);
-                        setAlert({msg:`Wcome ${response.user.first_name + ' ' + response.user.last_name}`,'cat':'success'})
+                        setAlert({msg:`Welcome ${response.user.first_name + ' ' + response.user.last_name}`,'cat':'success'})
                         setLoginCreds({})
-                        // navigate('/')
+                        navigate('/')
                     }
                     setError(response.error);
                 }
                 login(source.token)
             }
             return ()=>{source.cancel()}
-        },                                      //,navigate
-        [loginCreds,  setLoginCreds, setError, setUser]
+        },                                     
+        [loginCreds,  setLoginCreds, setError, setUser,navigate]
     )
     
 }

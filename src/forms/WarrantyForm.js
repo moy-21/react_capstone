@@ -6,8 +6,9 @@ import TextField from '@mui/material/TextField';
 // import { AppContext } from '../context/AppContext';
 import Error from '../components/Error';
 import useImage from '../hooks/useImage';
-import useVinDecoder from '../hooks/useVinDecoder';
-import CarCard from '../components/CarCard';
+import useWarranty from '../hooks/useWarranty';
+import WarrantyCard from '../components/WarrantyCard'
+
 
 
 
@@ -26,18 +27,14 @@ const initialValues={
 
 export default function VinDecodeForm(){
     
-    const [vin, setVin] = useState()
+    const [vin, setVin] = useState({})
 
-    const {img, imgError} = useImage(vin)
-    const {car, carError} = useVinDecoder(vin)
+    const warranty = useWarranty(vin)
 
     const handleSubmit=(values)=>{
-        console.log(values)
-        setVin(values.vin)
-        console.log(car)
-        console.log(vin)
         
-
+        console.log(values)
+        setVin(values)
     
     }
 
@@ -66,12 +63,19 @@ export default function VinDecodeForm(){
                 helperText={formik.touched.vin && formik.errors.vin}            
             />
 
-            <Button variant="outlined" color="warning" type="submit" sx={{width:"100%"}}>Search</Button>
-            <Error>{imgError}</Error>
-            <Error>{carError}</Error>
+            <Button variant="outlined" color="warning" type="submit" sx={{width:"100%"}}>Search Warranty Info</Button>
+            <Error></Error>
+            
         </form>
-        {car?
-            <CarCard car= {car} img = {img} />
+        {warranty.length>0?
+            
+            warranty.map((info, index) => (
+               <WarrantyCard key={index} info= {info}/>
+                
+                
+               
+              ))
+            
             :
             <></>
         }

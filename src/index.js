@@ -6,18 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import AppContextProvider from './context/AppContext';
 import CustomThemeProvider from './context/ThemeContext';
 import CssBaseline from '@mui/material/CssBaseline';
+import {BrowserRouter} from 'react-router-dom';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
-    <CustomThemeProvider>
-      <AppContextProvider>
-        <CssBaseline/>
-          <App />
-      
-      </AppContextProvider>
-    </CustomThemeProvider>
+    <BrowserRouter>
+      <CustomThemeProvider>
+        <AppContextProvider>
+          <CssBaseline/>
+            <App />
+        
+        </AppContextProvider>
+      </CustomThemeProvider>
+    </BrowserRouter>
   </>
 );
 

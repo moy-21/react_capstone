@@ -1,22 +1,26 @@
+import {create} from "apisauce";
+
 const authKey = "Basic MWQ1OWMxZTMtOGMzNS00NTU5LTk1NWYtNzRiZWY2NGQyOGQw"
 const partnerToken = "d6e6e3641d8b47e6ac2ae71ebc558efc"
+const carApi = (cancelToken) => create({
+    baseURL:`http://api.carmd.com/v3.0`,
+    cancelToken,
+    headers:{
+        "content-type":"application/json",
+        "authorization": "Basic MWQ1OWMxZTMtOGMzNS00NTU5LTk1NWYtNzRiZWY2NGQyOGQw",
+        "partner-token": "d6e6e3641d8b47e6ac2ae71ebc558efc"
+    }
+});
 
 
 const getVinDecoder = async (vin, cancelToken) => {
     let car;
     let carError;
-    const result = await fetch(`http://api.carmd.com/v3.0/decode?vin=${vin}`, cancelToken, {
-        method: 'GET',
-        headers:{
-            "content-type":"application/json",
-            "authorization": "Basic MWQ1OWMxZTMtOGMzNS00NTU5LTk1NWYtNzRiZWY2NGQyOGQw",
-            "partner-token": "d6e6e3641d8b47e6ac2ae71ebc558efc"
-        },
-    });
-
-    const response = await result.json();
+    
+    
+    const response = await carApi(cancelToken).get(`/decode?vin=${vin}`);
     if(response.ok){
-        car = response.data
+        car = response.data.data
     }else{
         carError = "An Unexpected Error has Occured. Please Try again Later."
     }
@@ -30,18 +34,10 @@ const getVinDecoder = async (vin, cancelToken) => {
 const getVinDecoderPremium = async (vin, cancelToken) => {
     let car;
     let carError;
-    const result = await fetch(`http://api.carmd.com/v3.0/decode_more?vin=${vin}`, cancelToken, {
-        method: 'GET',
-        headers:{
-            "content-type":"application/json",
-            "authorization": "Basic MWQ1OWMxZTMtOGMzNS00NTU5LTk1NWYtNzRiZWY2NGQyOGQw",
-            "partner-token": "d6e6e3641d8b47e6ac2ae71ebc558efc"
-        },
-    });
 
-    const response = await result.json();
+    const response = await carApi(cancelToken).get(`/decode_more?vin=${vin}`);
     if(response.ok){
-        car = response.data
+        car = response.data.data
     }else{
         carError = "An Unexpected Error has Occured. Please Try again Later."
     }
@@ -53,45 +49,29 @@ const getVinDecoderPremium = async (vin, cancelToken) => {
 }
 
 const getDiagnostics = async (vin, mileage, dtc, cancelToken) => {
-    let car;
-    let carError;
-    const result = await fetch(`http://api.carmd.com/v3.0/diag?vin=${vin}&mileage=${mileage}&dtc=${dtc}`, cancelToken, {
-        method: 'GET',
-        headers:{
-            "content-type":"application/json",
-            "authorization": "Basic MWQ1OWMxZTMtOGMzNS00NTU5LTk1NWYtNzRiZWY2NGQyOGQw",
-            "partner-token": "d6e6e3641d8b47e6ac2ae71ebc558efc"
-        },
-    });
+    let diag;
+    let diagError;
 
-    const response = await result.json();
+    const response = await carApi(cancelToken).get(`/diag?vin=${vin}&mileage=${mileage}&dtc=${dtc}`)
     if(response.ok){
-        car = response.data
+        diag = response.data.data
     }else{
-        carError = "An Unexpected Error has Occured. Please Try again Later."
+        diagError = "An Unexpected Error has Occured. Please Try again Later."
     }
     console.log(response)
     return{
-        car,
-        carError
+        diag,
+        diagError
     }
 }
 
 const getMaintance = async (vin, mileage, cancelToken) => {
     let maint;
     let maintError;
-    const result = await fetch(`http://api.carmd.com/v3.0/maint?vin=${vin}&mileage=${mileage}`, cancelToken, {
-        method: 'GET',
-        headers:{
-            "content-type":"application/json",
-            "authorization": "Basic MWQ1OWMxZTMtOGMzNS00NTU5LTk1NWYtNzRiZWY2NGQyOGQw",
-            "partner-token": "d6e6e3641d8b47e6ac2ae71ebc558efc"
-        },
-    });
 
-    const response = await result.json();
+    const response = await carApi(cancelToken).get(`/maint?vin=${vin}&mileage=${mileage}`)
     if(response.ok){
-        maint = response.data
+        maint = response.data.data
     }else{
         maintError = "An Unexpected Error has Occured. Please Try again Later."
     }
@@ -105,18 +85,11 @@ const getMaintance = async (vin, mileage, cancelToken) => {
 const getRepairList = async (vin, cancelToken) => {
     let repair;
     let repairError;
-    const result = await fetch(`http://api.carmd.com/v3.0/repairlist?vin=${vin}`, cancelToken, {
-        method: 'GET',
-        headers:{
-            "content-type":"application/json",
-            "authorization": "Basic MWQ1OWMxZTMtOGMzNS00NTU5LTk1NWYtNzRiZWY2NGQyOGQw",
-            "partner-token": "d6e6e3641d8b47e6ac2ae71ebc558efc"
-        },
-    });
 
-    const response = await result.json();
+
+    const response = await carApi(cancelToken).get(`/repairlist?vin=${vin}`)
     if(response.ok){
-        repair = response.data
+        repair = response.data.data
     }else{
         repairError = "An Unexpected Error has Occured. Please Try again Later."
     }
@@ -130,18 +103,10 @@ const getRepairList = async (vin, cancelToken) => {
 const getWarranty = async (vin, cancelToken) => {
     let warranty;
     let warrantyError;
-    const result = await fetch(`http://api.carmd.com/v3.0/warranty?vin=${vin}`, cancelToken, {
-        method: 'GET',
-        headers:{
-            "content-type":"application/json",
-            "authorization": "Basic MWQ1OWMxZTMtOGMzNS00NTU5LTk1NWYtNzRiZWY2NGQyOGQw",
-            "partner-token": "d6e6e3641d8b47e6ac2ae71ebc558efc"
-        },
-    });
 
-    const response = await result.json();
+    const response = await carApi(cancelToken).get(`/warranty?vin=${vin}`)
     if(response.ok){
-        warranty = response.data
+        warranty = response.data.data
     }else{
         warrantyError = "An Unexpected Error has Occured. Please Try again Later."
     }
@@ -152,38 +117,34 @@ const getWarranty = async (vin, cancelToken) => {
     }
 }
 
-const getVehicleHistory = async (vin) => {
-    const result = await fetch(`http://api.carmd.com/v3.0/decode?vin=${vin}`, {
-        method: 'GET',
-        headers: {
-            "content-type":"application/json",
-            "authorization": authKey,
-            "partner-token": partnerToken
-        },
-    });
-
-    const response = await result.json();
+const getVehicleHistory = async (vin, cancelToken) => {
+    let report;
+    let reportError;
+    
+    
+    const response = await carApi(cancelToken).get(`/vhr?vin=${vin}`);
+    if(response.ok){
+        report = response.data.data.pdf
+    }else{
+        reportError = "An Unexpected Error has Occured. Please Try again Later."
+    }
     console.log(response)
-    return response.data[0].pdf;
+    return{
+        report,
+        reportError
+    }
 }
 
 const getVehicleImage = async (vin, cancelToken) => {
     let img;
     let imgError;
-    const result = await fetch(`http://api.carmd.com/v3.0/image?vin=${vin}`, cancelToken, {
-        method: 'GET',
-        headers:{
-            "content-type":"application/json",
-            "authorization": "Basic MWQ1OWMxZTMtOGMzNS00NTU5LTk1NWYtNzRiZWY2NGQyOGQw",
-            "partner-token": "d6e6e3641d8b47e6ac2ae71ebc558efc"
-        },
-    });
-
-    const response = await result.json();
+    
+    const response = await carApi(cancelToken).get(`/image?vin=${vin}`);
     if(response.ok){
-        let img = response.data[0].image
+        console.log(response)
+        img = response.data.data.image
     }else{
-        let error = "An Unexpected Error has Occured. Please Try again Later."
+        imgError = "An Unexpected Error has Occured. Please Try again Later."
     }
     console.log(response)
     return{
@@ -195,5 +156,10 @@ const getVehicleImage = async (vin, cancelToken) => {
 export default {
     getVinDecoder,
     getVehicleImage,
-    getVehicleHistory
+    getVehicleHistory,
+    getWarranty,
+    getRepairList,
+    getVinDecoderPremium,
+    getMaintance,
+    getDiagnostics
 }
