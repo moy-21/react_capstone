@@ -13,8 +13,12 @@ export default function Register() {
   
     <Paper sx={{m:5, p:5, justifyContent:"center"}}>
     
+    {user.token?
+        <Typography variant="h4">Edit User</Typography>
+    :
+        <Typography variant="h4">Register</Typography>
+    }
     
-    <Typography variant="h4">Register</Typography>
     <RegisterForm/>
     <br/>
     

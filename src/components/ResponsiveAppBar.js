@@ -18,7 +18,7 @@ import {Link} from 'react-router-dom';
 
 
 const pages = [{label:'Vehicle Search',path:'/decode', key:'1'},
-{label:'History Report',path:'/login', key:'2'}, {label:'Warranty',path:'/warranty', key:'3'}, {label:'Diagnostics',path:'/diagnostics', key:'4'}];
+{label:'History Report',path:'/history', key:'2'}, {label:'Warranty',path:'/warranty', key:'3'}, {label:'Diagnostics',path:'/diagnostics', key:'4'}];
 const settings = [{label:'My List',path:'/carlist', key:'3'},
 {label:'Account',path:'/register', key:'4'}];
 
@@ -104,6 +104,17 @@ const ResponsiveAppBar = () => {
                   
                 </MenuItem>
               ))}
+              {user.token?
+                <></>
+              :
+                <MenuItem key='register' onClick={handleCloseNavMenu}>
+                <Link to='/register' style={{display:"flex", color:'inherit', textDecoration:'none'}}>
+                  <Typography textAlign="center">Register</Typography>
+                </Link>
+                
+              </MenuItem>
+              
+            }
             </Menu>
           </Box>
           <Typography

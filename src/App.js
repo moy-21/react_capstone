@@ -1,9 +1,5 @@
 import './App.css';
-import LoginForm from './forms/LoginForm'
-import RegisterForm from './forms/RegisterForm'
-import ThemeSwitch from './components/ThemeSwitch'
 import ResponsiveAppBar from './components/ResponsiveAppBar'
-import CarLookupForm from './forms/CarLookupForm'
 import Box from '@mui/material/Box'
 import SnackBar from './components/SnackBar'
 import {Route, Routes} from 'react-router-dom'
@@ -12,10 +8,11 @@ import Logout from './views/Logout';
 import CarDecoder from './views/CarDecoder'
 import CarListView from './views/CarListView'
 import Home from './views/Home';
-import {Paper, Typography} from '@mui/material'
+import {Typography} from '@mui/material'
 import Register from './views/Register';
 import Diagnostics from './views/Diagnostics';
 import Warranty from './views/Warranty';
+import VehicleHistory from './views/VehicleHistory'
 
 function App() {
   return (
@@ -32,13 +29,14 @@ function App() {
         <Route path="/register" element={<Register/>}/>
         <Route path="/diagnostics" element={<Diagnostics/>}/>
         <Route path="/warranty" element={<Warranty/>}/>
+        <Route path="/history" element={<VehicleHistory/>}/>
 
 
 
       </Routes>
       
     </Box>
-    <Typography align="center"> Terms&Conditions About Contact </Typography>
+    <Typography align="center"> Terms&Conditions<></> About<></> Contact </Typography>
 
   </>
   
